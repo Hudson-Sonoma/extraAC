@@ -110,6 +110,7 @@ var units = [
     min: "",
     max: "",
   },
+  { unit: "degC", group: "T", label: "C", stat: " ", dp: 1, min: "", max: "" },
 ];
 
 // Build unit select buttons
@@ -719,6 +720,7 @@ function build_source_list() {
 
 function source_type(unit) {
   if (unit == "Volts" || unit == "Hz") return "voltage";
+  if (unit == "degC" ) return "temperature";
   return "power";
 }
 

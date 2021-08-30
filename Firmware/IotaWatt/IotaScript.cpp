@@ -15,6 +15,7 @@ const char*      unitstr[] = {
                     "PF",
                     "VAR",
                     "VARh",
+                    "degC",
                     ""
                     };
 
@@ -223,6 +224,7 @@ double  Script::run(IotaLogRecord* oldRec, IotaLogRecord* newRec, double elapsed
         switch(Units) {
           case Watts:
           case Volts:
+          case degC:
           case Amps:
           case Hz:
           case Wh:
@@ -322,7 +324,7 @@ double  Script::runRecursive(uint8_t** tokens, IotaLogRecord* oldRec, IotaLogRec
               };
               switch(Units)
               {
-
+                case degC:
                 case Watts:
                   operand = (newRec->accum1[*token % 32] - (oldRec ? oldRec->accum1[*token % 32] : 0.0)) / elapsedHours;
                   break;

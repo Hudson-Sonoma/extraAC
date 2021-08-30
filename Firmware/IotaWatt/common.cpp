@@ -232,6 +232,7 @@ uint32_t timeRefMs = 0;                      // Internal MS clock corresponding 
 uint32_t timeSynchInterval = 3600;           // Interval (sec) to roll NTP forward and try to refresh
 uint32_t statServiceInterval = 1;            // Interval (sec) to invoke statService
 uint32_t updaterServiceInterval = 60*60;     // Interval (sec) to check for software updates 
+uint32_t temperatureServiceInterval = 5;            // Interval (sec) to invoke temperatureService
 
 bool     hasRTC = false;
 bool     RTCrunning = false;
@@ -264,3 +265,4 @@ int32_t   sumVI;
 int16_t   samples = 0;                              // Number of samples taken in last sampling
 int16_t   Vsample [MAX_SAMPLES];                    // voltage/current pairs during sampling
 int16_t   Isample [MAX_SAMPLES];
+

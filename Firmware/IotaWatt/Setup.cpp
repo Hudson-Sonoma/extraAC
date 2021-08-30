@@ -196,7 +196,7 @@ if(spiffsBegin()){
   WiFi.hostname(deviceName);
   WiFi.setAutoConnect(true);
   WiFi.setAutoReconnect(true);
-  WiFi.begin();
+  WiFi.begin(); // SSID, PASSWORD
   if(WiFi.status() != WL_CONNECTED){
     WiFi.reconnect();
   }
@@ -249,11 +249,19 @@ if(spiffsBegin()){
  //*************************************** Start the logging services *********************************
 
   NewService(WiFiService, T_WiFi); 
-  NewService(timeSync, T_timeSync);
+  log("Wifi server started");
+  NewService(timeSync, T_timeSync);  
+  log("timeSync server started");
   NewService(statService, T_stats);
+  log("statService server started");
   NewService(updater, T_UPDATE);
+  log("updater server started");
   NewService(dataLog, T_datalog);
+  log("datalog server started");
   NewService(historyLog, T_history);
+  log("historylog server started");
+  NewService(temperatureService, T_temperature);
+  log("temperatureService server started");
 
   if(! validConfig){
     setLedCycle(LED_BAD_CONFIG);
