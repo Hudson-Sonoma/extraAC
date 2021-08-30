@@ -20,7 +20,9 @@ enum units     // Must match unitstr[] in .cpp
   PF = 8,
   VAR = 9,
   VARh = 10,
-  unitsNone = 11
+  degC = 11,
+  unitsNone = 12
+  
 };         
     
 enum opCodes // Must match opChars[] in .cpp

@@ -3,7 +3,9 @@
 
 enum channelTypes:byte {channelTypeUndefined=0,
                         channelTypeVoltage=1,
-                        channelTypePower=2};
+                        channelTypePower=2,
+                        channelTypeTemperature=3
+                        };
 						
 union dataBuckets {
 	  struct {
@@ -24,6 +26,12 @@ union dataBuckets {
         double  VA;
         double  wattHrs;
         double  VAHrs;
+      };
+      struct {
+        double degree_c;
+        double _unused;
+        double degreeHrs;
+        double _unusedHrs;
       };
       dataBuckets()
       :value1(0)
@@ -88,12 +96,15 @@ class IotaInputChannel {
     void    ageBuckets(uint32_t timeNow);
     void    setVoltage(float volts, float Hz);
     void    setVoltage(float volts);
+    void    setTemperature(float degree_c);
+    float   getTemperature();
     void    setHz(float Hz);
     double  getHz() { return dataBucket.Hz; };
     void    setPower(float watts, float VA);	
     bool    isActive(){return _active;}
     void    active(bool _active_){_active = _active_;}
     double  getVoltage(){return dataBucket.volts;}	
+    double  getTemperature_c(){return dataBucket.degree_c; }
     double  getPower(){return dataBucket.watts;}
     double  getPf(){return dataBucket.watts / dataBucket.VA;}
     float   getPhase(float var);

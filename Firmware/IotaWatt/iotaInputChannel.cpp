@@ -33,6 +33,17 @@ void IotaInputChannel::setVoltage(float volts, float Hz){
     setVoltage(volts);
 }
 
+void IotaInputChannel::setTemperature(float degree_c){
+    if(_type != channelTypeTemperature) return;
+    dataBucket.degree_c = degree_c;	
+    ageBuckets(millis());
+}
+
+float IotaInputChannel::getTemperature(){
+    if(_type != channelTypeTemperature) return -61; // Invalid channel. 
+    return dataBucket.degree_c; 
+}
+
 void IotaInputChannel::setVoltage(float volts){
     if(_type != channelTypeVoltage) return;
     dataBucket.volts = volts;

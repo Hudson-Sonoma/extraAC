@@ -219,6 +219,8 @@ bool    CSVquery::setup(){
                         col->source = 'I';
                         if(inputChannel[j]->_type == channelTypeVoltage){
                             col->unit = Volts;
+                        } else if (inputChannel[j]->_type == channelTypeTemperature) {
+                            col->unit = degC;
                         } else {
                             col->unit = Watts;
                         }
@@ -239,6 +241,9 @@ bool    CSVquery::setup(){
                         }
                         else if(strcmp(script->getUnits(),"Watts") == 0){
                             col->unit = Watts;
+                        }
+                        else if(strcmp(script->getUnits(),"degC") == 0){
+                            col->unit = degC;
                         }
                         else col->decimals = script->precision();
                         col->script = script;
@@ -313,6 +318,10 @@ bool    CSVquery::setup(){
                     col->unit = VARh;
                     col->decimals = 0;
                 }
+                else if(method.equalsIgnoreCase("degc")){
+                    col->unit = degC;
+                    col->decimals = 1;
+                }
                 else if(method.startsWith("d")){
                     if(method.length() != 2 | method[1] < '0' | method[1] > '9') return false;
                     col->decimals = method[1] - '0';
@@ -375,6 +384,7 @@ bool    CSVquery::setup(){
         logReadKey(_newRec);
         trace(T_CSVquery,20);
         _query = select;
+
         return true;
     }
 
@@ -395,6 +405,7 @@ const char*  CSVquery::unitstr(units units){
     if(units == PF)    return "PF";
     if(units == VAR)   return "VAR";
     if(units == VARh)  return "VARh";
+    if(units == degC)  return "degC";
     return "Watts";
 
 }
@@ -567,6 +578,8 @@ size_t  CSVquery::readResult(uint8_t* buf, int len){
                             units = "Volts";
                         } else if(inputChannel[j]->_type == channelTypePower){
                             units = "Watts";
+                        } else if(inputChannel[j]->_type == channelTypeTemperature){
+                            units = "degC";
                         }
                         else continue;
                         _buffer.printf_P(PSTR("%c{\"name\":\"%s\",\"unit\":\"%s\"}"), leader, inputChannel[j]->_name, units.c_str());

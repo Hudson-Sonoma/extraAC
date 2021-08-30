@@ -140,7 +140,7 @@ void samplePower(int channel, int overSample){
 
   trace(T_POWER,5);
   Ichannel->setPower(_watts, _VA);
-  trace(T_POWER,9);                                                                               
+  trace(T_POWER,9);            
   return;
 }
 
@@ -217,9 +217,15 @@ void samplePower(int channel, int overSample){
   bool Vreverse = inputChannel[Vchan]->_reverse;
   bool Ireverse = inputChannel[Ichan]->_reverse;
   
-  SPI.beginTransaction(SPISettings(2000000,MSBFIRST,SPI_MODE0));
- 
   rawV = readADC(Vchan) - offsetV;                    // Prime the pump
+  int16_t sampleCountCheckFactor = 1;
+  if (Ichan < 8) {  // twice the rated MCP3208 SPI speed for 3.3v.  Seems to work.
+    SPI.beginTransaction(SPISettings(2000000,MSBFIRST,SPI_MODE0));
+  } else {  // normal rated MCP3208 SPI speed for 3.3v.  Needed for 2nd ADC chip (channel>7) when using D3,D4 also for DS18B20 temp sensors.
+    sampleCountCheckFactor = 2;
+    SPI.beginTransaction(SPISettings(1000000,MSBFIRST,SPI_MODE0));
+  }
+
   samples = 0;                                        // Start with nothing
 
           // Have at it.
@@ -232,7 +238,7 @@ void samplePower(int channel, int overSample){
                        ************************************/
                                                
         GPOC = ADC_IselectMask;                            // digitalWrite(ADC_IselectPin, LOW); Select the ADC
-
+        
               // hardware send 5 bit start + sgl/diff + port_addr
                                             
         SPI1U1 = (SPI1U1 & mask) | dataMask;               // Set number of bits 
@@ -271,7 +277,7 @@ void samplePower(int channel, int overSample){
                        ************************************/
          
         GPOC = ADC_VselectMask;                             // digitalWrite(ADC_VselectPin, LOW); Select the ADC
-  
+
               // hardware send 5 bit start + sgl/diff + port_addr0
         
         SPI1U1 = (SPI1U1 & mask) | dataMask;
@@ -379,7 +385,7 @@ void samplePower(int channel, int overSample){
   if(offsetI > maxOffset) offsetI = maxOffset;
   Ichannel->_offset = offsetI; 
   
-  if(samples < ((lastCrossUs - firstCrossUs) * 380 / 10000)){
+  if(sampleCountCheckFactor*samples < ((lastCrossUs - firstCrossUs) * 380 / 10000)){
     Serial.print(F("Low sample count "));
     Serial.println(samples);
     return 1;

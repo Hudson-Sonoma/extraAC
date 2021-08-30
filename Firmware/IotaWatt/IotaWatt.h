@@ -62,6 +62,8 @@
 #include <SHA256.h>
 #include <Ed25519.h>
 
+#include <OneWire.h>
+
 #include "messageLog.h"
 #include "utilities.h"
 #include "webServer.h"
@@ -204,7 +206,9 @@ struct EEprom {
 #define T_uploader 31      // Uploader base class
 #define T_influx1 32       // influxDB_v1_uploader
 #define T_integrator 33    // Integrator class  
-#define T_Script 34                        
+#define T_Script 34                
+#define T_temperature 40         // temperature service 
+
 
       // LED codes
 
@@ -336,6 +340,7 @@ extern uint32_t timeRefMs;                     // Internal MS clock correspondin
 extern uint32_t timeSynchInterval;             // Interval (sec) to roll NTP forward and try to refresh
 extern uint32_t statServiceInterval;           // Interval (sec) to invoke statService
 extern uint32_t updaterServiceInterval;        // Interval (sec) to check for software updates
+extern uint32_t temperatureServiceInterval;           // Interval (sec) to invoke statService
 
 extern bool     hasRTC;
 extern bool     RTCrunning;
@@ -384,6 +389,11 @@ uint32_t  updater(struct serviceBlock*);
 uint32_t  WiFiService(struct serviceBlock*);
 uint32_t  exportLog(struct serviceBlock *_serviceBlock);
 uint32_t  getFeedData(); //(struct serviceBlock*);
+ uint32_t  temperatureService(struct serviceBlock*);
+
+extern OneWire  oneWire3;    
+extern OneWire  oneWire4;
+
 
 uint32_t  logReadKey(IotaLogRecord* callerRecord);
 

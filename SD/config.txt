@@ -1,9 +1,9 @@
 {
 	"format": 2,
 	"timezone": 0,
-	"update": "MINOR",
+	"update": "NONE",
 	"device": {
-		"name": "IotaWatt",
+		"name": "extraAC",
 		"version": 3,
 		"channels": "15",
 		"burden": [
