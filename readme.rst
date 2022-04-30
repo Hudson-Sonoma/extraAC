@@ -7,7 +7,7 @@ inexpensive and easy to use energy monitor.
 
 extraAC is a fork to add DB18B20 temperature sensing to the Iotawatt platform.
 
-.. figure:: Docs/pics/readme/extraAC.png
+.. figure:: Docs/pics/readme/extraAC.JPG
     :scale: 40 %
     :align: center
     :alt: **extraAC hardware**
