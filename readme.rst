@@ -8,13 +8,13 @@ inexpensive and easy to use energy monitor.
 extraAC is a fork to add DB18B20 temperature sensing to the Iotawatt platform.
 
 .. figure:: Docs/pics/readme/extraAC.JPG
-    :scale: 40 %
+    :scale: 20 %
     :align: center
     :alt: **extraAC hardware**
 
 Temperature sensor support (DS18B20) is on ports 13 and 14. Two temperature sensors are supported per port.
 
-## Convert your IotaWatt into an extraAC
+##Convert your IotaWatt into an extraAC
 
 Make the following hardware changes to the IotaWatt circuit board:
 Connect ports 13,14 to the NodeMCU D3 and D4 instead of the ADC (cutting a few traces and adding a few wires). 
